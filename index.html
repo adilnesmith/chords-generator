@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>live · clean outside chords (no modes)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Modal Borrow · mobile chord lab</title>
   <style>
-    /* ultra minimal, one‑screen layout — just the extra chords you asked for */
+    /* ------------------------------------------------
+     * Mobile-first, space-efficient, tappable design
+     * ------------------------------------------------ */
     * {
       margin: 0;
       padding: 0;
@@ -14,232 +16,308 @@
 
     body {
       background: #12101c;
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      margin: 6px;
+      margin: 0;
+      padding: 6px;
     }
 
-    .live-panel {
-      max-width: 1200px;
+    .app-container {
       width: 100%;
-      background: #f8f4ff;
-      border-radius: 2rem;
-      padding: 1.2rem 1rem 1rem 1rem;
-      box-shadow: 0 20px 40px #00000080;
-      border: 1px solid #b398e0;
-      height: 96vh;
+      max-width: 500px;  /* comfortable mobile width */
+      height: 98vh;
+      background: #f8f2ff;
+      border-radius: 2.2rem;
+      padding: 1rem 0.8rem;
+      box-shadow: 0 20px 40px #0000004d;
+      border: 2px solid #b7a0de;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      color: #1f1730;
+      color: #1d1433;
     }
 
-    /* top row: tiny */
-    .top-row {
+    /* header with app name and selectors */
+    .app-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .app-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 0.8rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
     }
 
-    h1 {
-      font-size: 1.5rem;
+    .app-title h1 {
+      font-size: 1.7rem;
       font-weight: 700;
-      background: linear-gradient(145deg, #312755, #6a4eb3);
+      background: linear-gradient(145deg, #382d5a, #6d4ec7);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
     }
 
-    .selector-panel {
+    .app-badge {
+      background: #4f3c7c;
+      color: white;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* dual selector row – made for thumbs */
+    .selector-row {
       display: flex;
-      gap: 1.2rem;
-      background: #e3d8fc;
-      padding: 0.2rem 1.2rem 0.2rem 1.2rem;
+      gap: 0.5rem;
+      background: #e7dcfe;
       border-radius: 3rem;
-      align-items: center;
-      border: 1px solid #9d84ce;
+      padding: 0.5rem 0.6rem;
+      border: 2px solid #b299e6;
     }
 
     .selector-item {
+      flex: 1;
       display: flex;
-      align-items: center;
-      gap: 0.4rem;
+      flex-direction: column;
     }
 
     .selector-item label {
+      font-size: 0.6rem;
       font-weight: 700;
-      font-size: 0.7rem;
       text-transform: uppercase;
-      color: #392d58;
+      color: #3b2b60;
+      margin-left: 0.5rem;
+      margin-bottom: 0.1rem;
     }
 
     .styled-select {
       background: white;
-      border: 2px solid #9d84ce;
-      border-radius: 2rem;
-      padding: 0.25rem 1.6rem 0.25rem 0.8rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #1c1235;
-      appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%233d2e5f" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
-      background-repeat: no-repeat;
-      background-position: right 0.4rem center;
-      background-size: 0.9rem;
-      cursor: pointer;
-    }
-
-    /* main scale row – diatonic as small pills */
-    .scale-row {
-      background: #e9e0fe;
-      border-radius: 2rem;
-      padding: 0.6rem 1.2rem;
-      margin-bottom: 1rem;
-      border: 2px solid #cab3f0;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: space-between;
-    }
-
-    .scale-label {
-      font-size: 1.2rem;
+      border: 2px solid #a185d3;
+      border-radius: 2.5rem;
+      padding: 0.7rem 0.5rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      color: #1d113b;
+      appearance: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%233d2e5f" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      background-size: 1.2rem;
+      cursor: pointer;
+      text-align: center;
     }
 
-    .scale-label span {
-      background: #4b3680;
+    /* main scale card – diatonic chords */
+    .scale-card {
+      background: #e3d5ff;
+      border-radius: 2rem;
+      padding: 0.8rem 0.8rem;
+      margin: 0.6rem 0 0.8rem 0;
+      border: 2px solid #c6b0f0;
+      box-shadow: 0 4px 12px #c2abea;
+    }
+
+    .scale-header {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2d2150;
+    }
+
+    .scale-header span {
+      background: #5d4690;
       color: white;
-      padding: 0.1rem 1rem;
+      padding: 0.2rem 1rem;
       border-radius: 40px;
       font-size: 0.7rem;
       text-transform: uppercase;
     }
 
-    .chord-mini-grid {
+    .diatonic-pills {
       display: flex;
       flex-wrap: wrap;
       gap: 0.4rem;
+      justify-content: center;
     }
 
-    .chord-pill {
+    .pill {
       background: white;
-      border-radius: 2rem;
-      padding: 0.2rem 1rem;
-      font-weight: 700;
-      font-size: 1rem;
-      box-shadow: 0 2px 8px #bcaae2;
-      border: 2px solid white;
-    }
-
-    .chord-pill small {
-      font-size: 0.6rem;
-      font-weight: 500;
-      color: #624d91;
-      margin-left: 4px;
-    }
-
-    /* ----- OUTSIDE CHORDS (clean grid, no mode groups) ----- */
-    .outside-section {
-      flex: 1;
-      overflow-y: auto;
-      padding: 0.8rem 0.2rem 0.2rem 0.2rem;
-      min-height: 0;
-    }
-
-    .outside-header {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #3a2960;
-      margin-bottom: 0.8rem;
-      background: #d9cafc;
-      display: inline-block;
-      padding: 0.2rem 1.5rem;
-      border-radius: 40px;
-      border: 1px solid #9f86d3;
-    }
-
-    .outside-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
-      gap: 0.7rem;
-    }
-
-    .outside-chord {
-      background: white;
-      border-radius: 1.8rem;
-      padding: 0.8rem 0.2rem;
-      text-align: center;
+      border-radius: 2.5rem;
+      padding: 0.4rem 1.2rem;
       font-weight: 700;
       font-size: 1.2rem;
-      color: #1a1035;
+      box-shadow: 0 2px 10px #b9a2e8;
       border: 2px solid #ffffff;
-      box-shadow: 0 4px 12px #bca5e8;
+      color: #1c1238;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .pill small {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #5b4b84;
+      margin-left: 0.2rem;
+    }
+
+    /* borrowed section – only shows for major */
+    .borrowed-section {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+      min-height: 0;
+      background: #f0e8ff;
+      border-radius: 1.8rem;
+      border: 2px solid #d1bef5;
+      margin-top: 0.2rem;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #382b60;
+      padding: 0.5rem 0.5rem 0.2rem 0.8rem;
+    }
+
+    .modal-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 0.2rem 0.5rem 0.5rem 0.5rem;
+    }
+
+    .modal-card {
+      background: #ffffffde;
+      border-radius: 1.8rem;
+      padding: 0.6rem 0.5rem;
+      border: 2px solid #cfb9fc;
+      box-shadow: 0 4px 10px #c2abec;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      padding-left: 0.3rem;
+    }
+
+    .modal-name {
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #2d2352;
+    }
+
+    .modal-desc {
+      background: #6f5ba3;
+      color: white;
+      padding: 0.1rem 1rem;
+      border-radius: 40px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .chord-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+
+    .chip {
+      background: white;
+      border-radius: 2.5rem;
+      padding: 0.4rem 1.3rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #1c1238;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 12px #ad94e0;
       transition: 0.05s;
-      line-height: 1.2;
+      min-width: 4rem;
+      text-align: center;
     }
 
-    /* absolutely no small text, no mode labels */
-    .outside-chord small {
-      display: none;
+    .chip:active {
+      background: #dac9ff;
+      transform: scale(0.96);
     }
 
-    .outside-chord:active {
-      background: #d9c6ff;
+    /* hidden state for minor */
+    .hidden-section {
+      display: none !important;
     }
 
-    /* footer stats – minimal */
-    .footer-stats {
+    /* footer – simple */
+    .app-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 0.6rem;
+      margin-top: 0.5rem;
+      background: #e2d4fc;
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
       font-size: 0.7rem;
-      color: #392f58;
-      background: #e0d1fc;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
+      color: #312758;
+      font-weight: 600;
+      border: 2px solid #b59de2;
     }
 
-    .count-badge {
-      background: #4b3679;
+    .count-pill {
+      background: #4d3a78;
       color: white;
-      padding: 0.1rem 0.8rem;
+      padding: 0.2rem 0.8rem;
       border-radius: 40px;
     }
 
-    /* scroll thin */
-    .outside-section::-webkit-scrollbar {
-      width: 5px;
+    /* no vertical scroll on main container */
+    .borrowed-section::-webkit-scrollbar {
+      width: 4px;
     }
-    .outside-section::-webkit-scrollbar-thumb {
-      background: #a68ed2;
+    .borrowed-section::-webkit-scrollbar-thumb {
+      background: #a28ad4;
       border-radius: 20px;
+    }
+
+    /* mobile landscape adjustments */
+    @media (max-height: 700px) {
+      .pill { font-size: 1rem; padding: 0.2rem 1rem; }
+      .chip { font-size: 1rem; padding: 0.2rem 1rem; }
+      .modal-name { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-<div class="live-panel">
+<div class="app-container">
 
-  <!-- top controls -->
-  <div class="top-row">
-    <h1>♯ outside·chords</h1>
-    <div class="selector-panel">
+  <!-- header with app name + badge -->
+  <div class="app-header">
+    <div class="app-title">
+      <h1>🎸 Common Progressions</h1>
+      <span class="app-badge">v2 · mobile</span>
+    </div>
+
+    <!-- root & scale selectors (thumb‑friendly) -->
+    <div class="selector-row">
       <div class="selector-item">
-        <label>root</label>
+        <label for="rootSelect">root</label>
         <select id="rootSelect" class="styled-select"></select>
       </div>
       <div class="selector-item">
-        <label>scale</label>
+        <label for="scaleSelect">scale</label>
         <select id="scaleSelect" class="styled-select">
           <option value="major">major</option>
           <option value="minor">minor</option>
@@ -248,41 +326,33 @@
     </div>
   </div>
 
-  <!-- main diatonic row (for reference) -->
-  <div class="scale-row" id="mainScaleRow"></div>
-
-  <!-- outside chords: exactly what you listed, transposed -->
-  <div class="outside-section">
-    <div class="outside-header">➕ outside the scale (C# · D · E · Fm · F# · Gm · G# · A#)</div>
-    <div id="outsideGrid" class="outside-grid"></div>
+  <!-- main diatonic chords (always visible) -->
+  <div class="scale-card" id="mainScaleCard">
+    <!-- filled by js -->
   </div>
 
-  <!-- footer with count -->
-  <div class="footer-stats">
-    <span>🎯 only specific borrowed chords · no mode clutter</span>
-    <span id="outsideCount" class="count-badge">0</span>
+  <!-- borrowed / modal groups – hidden for minor -->
+  <div class="borrowed-section" id="borrowedSection">
+    <div class="section-title">⚡ borrowed progressions</div>
+    <div class="modal-grid" id="modalGroupsContainer"></div>
+  </div>
+
+  <!-- footer with status -->
+  <div class="app-footer">
+    <span>🎼 modal feel groups</span>
+    <span class="count-pill" id="outsideCount">0</span>
   </div>
 </div>
 
 <script>
   (function() {
     // ----------------------------------------------
-    // 12 notes
+    // sharps only (no flats)
     const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-    // helper for flats (F, Bb, Eb etc)
-    function prettifyNote(note, rootContext) {
-      const flatMap = {"A#":"Bb","D#":"Eb","G#":"Ab","C#":"Db","F#":"Gb"};
-      const flatRoots = ["F","Bb","Eb","Ab","Db","Gb"];
-      if (flatRoots.includes(rootContext) && flatMap[note]) return flatMap[note];
-      return note;
-    }
-
-    // intervals for ionian (major) and aeolian (minor)
+    // intervals & qualities
     const majorPattern = [2,2,1,2,2,2,1];
-    const minorPattern = [2,1,2,2,1,2,2]; // aeolian
-
-    // chord qualities for major / minor (diatonic)
+    const minorPattern = [2,1,2,2,1,2,2];
     const majorQualities = ["maj","min","min","maj","maj","min","dim"];
     const minorQualities = ["min","dim","maj","min","min","maj","maj"];
 
@@ -293,7 +363,7 @@
         idx = (idx + pattern[i]) % 12;
         scale.push(notes[idx]);
       }
-      return scale; // 7 notes
+      return scale;
     }
 
     // populate root dropdown
@@ -307,15 +377,16 @@
     });
 
     const scaleSelect = document.getElementById('scaleSelect');
-    const mainScaleRow = document.getElementById('mainScaleRow');
-    const outsideGrid = document.getElementById('outsideGrid');
-    const outsideCount = document.getElementById('outsideCount');
+    const mainScaleCard = document.getElementById('mainScaleCard');
+    const borrowedSection = document.getElementById('borrowedSection');
+    const modalGroupsContainer = document.getElementById('modalGroupsContainer');
+    const outsideCountSpan = document.getElementById('outsideCount');
 
     let currentRoot = 'C';
     let currentScale = 'major';
 
-    // render main diatonic row (just as visual reference)
-    function renderMainRow() {
+    // render main diatonic pills
+    function renderMainScale() {
       const pattern = currentScale === 'major' ? majorPattern : minorPattern;
       const qualities = currentScale === 'major' ? majorQualities : minorQualities;
       const scaleNotes = getScaleNotes(currentRoot, pattern);
@@ -323,21 +394,24 @@
         ? ["I","ii","iii","IV","V","vi","vii°"] 
         : ["i","ii°","III","iv","v","VI","VII"];
 
-      let pills = '';
+      let pillsHtml = '';
       scaleNotes.forEach((note, i) => {
-        let display = prettifyNote(note, currentRoot);
+        let display = note;
         let qual = qualities[i];
         let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
-        pills += `<div class="chord-pill">${display}${symbol}<small>${roman[i]}</small></div>`;
+        pillsHtml += `<div class="pill">${display}${symbol}<small>${roman[i]}</small></div>`;
       });
 
-      mainScaleRow.innerHTML = `
-        <div class="scale-label">🎵 ${currentRoot} ${currentScale} <span>diatonic</span></div>
-        <div class="chord-mini-grid">${pills}</div>
+      mainScaleCard.innerHTML = `
+        <div class="scale-header">
+          <span>🎵 ${currentRoot} ${currentScale}</span>
+          <span>diatonic</span>
+        </div>
+        <div class="diatonic-pills">${pillsHtml}</div>
       `;
     }
 
-    // get diatonic raw chord names (to exclude them from outside list)
+    // diatonic set for filtering
     function getDiatonicSet() {
       const pattern = currentScale === 'major' ? majorPattern : minorPattern;
       const qualities = currentScale === 'major' ? majorQualities : minorQualities;
@@ -346,75 +420,101 @@
       scaleNotes.forEach((note, i) => {
         let qual = qualities[i];
         let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
-        set.add(note + symbol);   // e.g. "C", "Dm", "Em" etc
+        set.add(note + symbol);
       });
       return set;
     }
 
-    // ----------------------------------------------------
-    // THE EXACT OUTSIDE CHORDS YOU REQUESTED (as raw intervals from root)
-    // For C major: C#, D, E, Fm, F#, Gm, G#, A#
-    // For A minor (example): same structure transposed
-    // We'll define them as semitone offsets + quality
-    // ----------------------------------------------------
-    const outsideSpec = [
-      { offset: 1, quality: 'maj' },    // #1 (C#)
-      { offset: 2, quality: 'maj' },    // D
-      { offset: 4, quality: 'maj' },    // E
-      { offset: 5, quality: 'min' },    // F minor
-      { offset: 6, quality: 'maj' },    // F#
-      { offset: 7, quality: 'min' },    // G minor
-      { offset: 8, quality: 'maj' },    // G#
-      { offset: 10, quality: 'maj' }    // A# (or Bb)
+    // modal specifications (the six feel groups)
+    const modalSpecs = [
+      { mode: "Mixolydian", desc: "C C# Gm", offsets: [
+          { offset:0, quality:'maj' }, { offset:1, quality:'maj' }, { offset:7, quality:'min' }
+      ]},
+      { mode: "Lydian", desc: "C G# A#", offsets: [
+          { offset:0, quality:'maj' }, { offset:8, quality:'maj' }, { offset:10, quality:'maj' }
+      ]},
+      { mode: "Ionian", desc: "C D E", offsets: [
+          { offset:0, quality:'maj' }, { offset:2, quality:'maj' }, { offset:4, quality:'maj' }
+      ]},
+      { mode: "Aeolian", desc: "C Cm G#", offsets: [
+          { offset:0, quality:'maj' }, { offset:0, quality:'min' }, { offset:8, quality:'maj' }
+      ]},
+      { mode: "Phrygian", desc: "C Fm A#", offsets: [
+          { offset:0, quality:'maj' }, { offset:5, quality:'min' }, { offset:10, quality:'maj' }
+      ]},
+      { mode: "Dorian", desc: "C D G", offsets: [
+          { offset:0, quality:'maj' }, { offset:2, quality:'maj' }, { offset:7, quality:'maj' }
+      ]}
     ];
 
-    function renderOutsideChords() {
+    // render modal groups – only for major
+    function renderModalGroups() {
+      if (currentScale === 'minor') {
+        borrowedSection.classList.add('hidden-section');
+        outsideCountSpan.innerText = '0';
+        return;
+      } else {
+        borrowedSection.classList.remove('hidden-section');
+      }
+
       const rootIdx = notes.indexOf(currentRoot);
       const diatonicSet = getDiatonicSet();
+      let allOutside = new Set();
+      let groupsHtml = '';
 
-      // build the eight specific chords
-      const chords = [];
+      modalSpecs.forEach(spec => {
+        let groupChords = [];
 
-      outsideSpec.forEach(spec => {
-        let rawNoteIdx = (rootIdx + spec.offset) % 12;
-        let rawNote = notes[rawNoteIdx];
-        let symbol = spec.quality === 'maj' ? '' : 'm';
-        let rawChord = rawNote + symbol;
+        spec.offsets.forEach(item => {
+          let rawNoteIdx = (rootIdx + item.offset) % 12;
+          let rawNote = notes[rawNoteIdx];
+          let displayChord = item.quality === 'maj' ? rawNote : rawNote + 'm';
+          let rawChord = item.quality === 'maj' ? rawNote : rawNote + 'm';
 
-        // ONLY show if it's NOT in the diatonic set (outside the scale)
-        if (!diatonicSet.has(rawChord)) {
-          // pretty display with possible flats
-          let displayNote = prettifyNote(rawNote, currentRoot);
-          let displayChord = displayNote + symbol;
-          chords.push(displayChord);
+          // always include root major as anchor
+          let include = false;
+          if (item.offset === 0 && item.quality === 'maj') {
+            include = true;
+          } else {
+            if (!diatonicSet.has(rawChord)) include = true;
+          }
+
+          if (include) {
+            groupChords.push(displayChord);
+            allOutside.add(rawChord);
+          }
+        });
+
+        if (groupChords.length > 0) {
+          let chips = '';
+          groupChords.forEach(ch => chips += `<span class="chip">${ch}</span>`);
+
+          groupsHtml += `
+            <div class="modal-card">
+              <div class="modal-header">
+                <span class="modal-name">${spec.mode}</span>
+                <span class="modal-desc">${spec.desc}</span>
+              </div>
+              <div class="chord-chips">${chips}</div>
+            </div>
+          `;
         }
       });
 
-      // sort chords by root index? but order as above is fine; we keep given order (C#, D, E, Fm, F#, Gm, G#, A#)
-      // but after transposition we should maintain that relative order (based on offset)
-      // they are already in increasing offset, so stable.
-
-      // build grid
-      let gridHtml = '';
-      chords.forEach(ch => {
-        gridHtml += `<div class="outside-chord">${ch}</div>`;
-      });
-
-      outsideGrid.innerHTML = gridHtml;
-      outsideCount.innerText = chords.length;
+      modalGroupsContainer.innerHTML = groupsHtml;
+      outsideCountSpan.innerText = allOutside.size;
     }
 
     function renderAll() {
       currentRoot = rootSelect.value;
       currentScale = scaleSelect.value;
-      renderMainRow();
-      renderOutsideChords();
+      renderMainScale();
+      renderModalGroups();
     }
 
     rootSelect.addEventListener('change', renderAll);
     scaleSelect.addEventListener('change', renderAll);
 
-    // initial render
     renderAll();
   })();
 </script>
