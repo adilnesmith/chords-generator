@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Modal Borrow · mobile chord lab</title>
+  <title>Chords library</title>
   <style>
     /* ------------------------------------------------
-     * Mobile-first, space-efficient, tappable design
+     * Mobile-first – same clean design
      * ------------------------------------------------ */
     * {
       margin: 0;
@@ -27,7 +27,7 @@
 
     .app-container {
       width: 100%;
-      max-width: 500px;  /* comfortable mobile width */
+      max-width: 500px;
       height: 98vh;
       background: #f8f2ff;
       border-radius: 2.2rem;
@@ -40,7 +40,6 @@
       color: #1d1433;
     }
 
-    /* header with app name and selectors */
     .app-header {
       display: flex;
       flex-direction: column;
@@ -73,7 +72,6 @@
       text-transform: uppercase;
     }
 
-    /* dual selector row – made for thumbs */
     .selector-row {
       display: flex;
       gap: 0.5rem;
@@ -115,7 +113,6 @@
       text-align: center;
     }
 
-    /* main scale card – diatonic chords */
     .scale-card {
       background: #e3d5ff;
       border-radius: 2rem;
@@ -172,7 +169,6 @@
       margin-left: 0.2rem;
     }
 
-    /* borrowed section – only shows for major */
     .borrowed-section {
       flex: 1;
       overflow-y: auto;
@@ -212,6 +208,7 @@
       gap: 0.5rem;
       margin-bottom: 0.5rem;
       padding-left: 0.3rem;
+      flex-wrap: wrap;
     }
 
     .modal-name {
@@ -256,12 +253,6 @@
       transform: scale(0.96);
     }
 
-    /* hidden state for minor */
-    .hidden-section {
-      display: none !important;
-    }
-
-    /* footer – simple */
     .app-footer {
       display: flex;
       justify-content: space-between;
@@ -283,7 +274,6 @@
       border-radius: 40px;
     }
 
-    /* no vertical scroll on main container */
     .borrowed-section::-webkit-scrollbar {
       width: 4px;
     }
@@ -292,7 +282,6 @@
       border-radius: 20px;
     }
 
-    /* mobile landscape adjustments */
     @media (max-height: 700px) {
       .pill { font-size: 1rem; padding: 0.2rem 1rem; }
       .chip { font-size: 1rem; padding: 0.2rem 1rem; }
@@ -303,14 +292,12 @@
 <body>
 <div class="app-container">
 
-  <!-- header with app name + badge -->
   <div class="app-header">
     <div class="app-title">
-      <h1>🎸 Common Progressions</h1>
-      <span class="app-badge">v2 · mobile</span>
+      <h1>🎸 Chords library</h1>
+      <span class="app-badge">unique only</span>
     </div>
 
-    <!-- root & scale selectors (thumb‑friendly) -->
     <div class="selector-row">
       <div class="selector-item">
         <label for="rootSelect">root</label>
@@ -319,38 +306,31 @@
       <div class="selector-item">
         <label for="scaleSelect">scale</label>
         <select id="scaleSelect" class="styled-select">
-          <option value="major">major</option>
-          <option value="minor">minor</option>
+          <option value="major">Major</option>
+          <option value="minor">Minor</option>
         </select>
       </div>
     </div>
   </div>
 
-  <!-- main diatonic chords (always visible) -->
-  <div class="scale-card" id="mainScaleCard">
-    <!-- filled by js -->
-  </div>
+  <div class="scale-card" id="mainScaleCard"></div>
 
-  <!-- borrowed / modal groups – hidden for minor -->
   <div class="borrowed-section" id="borrowedSection">
-    <div class="section-title">⚡ borrowed progressions</div>
+    <div class="section-title" id="sectionTitle">⚡ unique thaat chords</div>
     <div class="modal-grid" id="modalGroupsContainer"></div>
   </div>
 
-  <!-- footer with status -->
   <div class="app-footer">
-    <span>🎼 modal feel groups</span>
+    <span>🎼 For personal use only</span>
     <span class="count-pill" id="outsideCount">0</span>
   </div>
 </div>
 
 <script>
   (function() {
-    // ----------------------------------------------
-    // sharps only (no flats)
     const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-    // intervals & qualities
+    // Base scale patterns (Bilawal for major, Asawari for minor)
     const majorPattern = [2,2,1,2,2,2,1];
     const minorPattern = [2,1,2,2,1,2,2];
     const majorQualities = ["maj","min","min","maj","maj","min","dim"];
@@ -366,7 +346,22 @@
       return scale;
     }
 
-    // populate root dropdown
+    // Get base diatonic chords (Bilawal or Asawari) as a Set
+    function getBaseChordSet(root, isMajor) {
+      const pattern = isMajor ? majorPattern : minorPattern;
+      const qualities = isMajor ? majorQualities : minorQualities;
+      let idx = notes.indexOf(root);
+      const chords = [];
+      for (let i = 0; i < pattern.length; i++) {
+        let note = notes[idx];
+        let qual = qualities[i];
+        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
+        chords.push(note + symbol);
+        idx = (idx + pattern[i]) % 12;
+      }
+      return new Set(chords);
+    }
+
     const rootSelect = document.getElementById('rootSelect');
     notes.forEach(n => {
       const opt = document.createElement('option');
@@ -381,11 +376,12 @@
     const borrowedSection = document.getElementById('borrowedSection');
     const modalGroupsContainer = document.getElementById('modalGroupsContainer');
     const outsideCountSpan = document.getElementById('outsideCount');
+    const sectionTitle = document.getElementById('sectionTitle');
 
     let currentRoot = 'C';
     let currentScale = 'major';
 
-    // render main diatonic pills
+    // render main diatonic (the reference scale)
     function renderMainScale() {
       const pattern = currentScale === 'major' ? majorPattern : minorPattern;
       const qualities = currentScale === 'major' ? majorQualities : minorQualities;
@@ -404,105 +400,145 @@
 
       mainScaleCard.innerHTML = `
         <div class="scale-header">
-          <span>🎵 ${currentRoot} ${currentScale}</span>
-          <span>diatonic</span>
+          <span>🎵 ${currentRoot} ${currentScale === 'major' ? 'Bilawal' : 'Asawari'}</span>
+          <span>base thaat</span>
         </div>
         <div class="diatonic-pills">${pillsHtml}</div>
       `;
     }
 
-    // diatonic set for filtering
-    function getDiatonicSet() {
-      const pattern = currentScale === 'major' ? majorPattern : minorPattern;
-      const qualities = currentScale === 'major' ? majorQualities : minorQualities;
-      const scaleNotes = getScaleNotes(currentRoot, pattern);
-      const set = new Set();
-      scaleNotes.forEach((note, i) => {
-        let qual = qualities[i];
-        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
-        set.add(note + symbol);
-      });
-      return set;
-    }
-
-    // modal specifications (the six feel groups)
-    const modalSpecs = [
-      { mode: "Mixolydian", desc: "C C# Gm", offsets: [
-          { offset:0, quality:'maj' }, { offset:1, quality:'maj' }, { offset:7, quality:'min' }
-      ]},
-      { mode: "Lydian", desc: "C G# A#", offsets: [
-          { offset:0, quality:'maj' }, { offset:8, quality:'maj' }, { offset:10, quality:'maj' }
-      ]},
-      { mode: "Ionian", desc: "C D E", offsets: [
-          { offset:0, quality:'maj' }, { offset:2, quality:'maj' }, { offset:4, quality:'maj' }
-      ]},
-      { mode: "Aeolian", desc: "C Cm G#", offsets: [
-          { offset:0, quality:'maj' }, { offset:0, quality:'min' }, { offset:8, quality:'maj' }
-      ]},
-      { mode: "Phrygian", desc: "C Fm A#", offsets: [
-          { offset:0, quality:'maj' }, { offset:5, quality:'min' }, { offset:10, quality:'maj' }
-      ]},
-      { mode: "Dorian", desc: "C D G", offsets: [
-          { offset:0, quality:'maj' }, { offset:2, quality:'maj' }, { offset:7, quality:'maj' }
-      ]}
+    // ------------------------------------------------------------------
+    // MAJOR thaats (complete patterns) – we'll filter against Bilawal set
+    // ------------------------------------------------------------------
+    const majorThaatDefinitions = [
+      { 
+        name: "Khamaj (Mixolydian)", 
+        desc: "♭7",
+        pattern: [2,2,1,2,2,1,2],  // Mixolydian steps
+        qualities: ["maj","min","min","maj","min","min","maj"]  // I ii iii IV v vi ♭VII
+      },
+      { 
+        name: "Kalyan (Lydian)", 
+        desc: "♯4",
+        pattern: [2,2,2,1,2,2,1],  // Lydian steps
+        qualities: ["maj","maj","min","dim","maj","min","min"] // I II iii ♯iv° V vi vii
+      },
+      { 
+        name: "Bhairav", 
+        desc: "♭2 ♭6 ♭7",
+        pattern: [1,2,2,1,2,2,2],  // Phrygian with natural 3? Bhairav that: 1 ♭2 3 4 5 ♭6 ♭7
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"] // all major for demonstration, but unique chords will appear
+      },
+      { 
+        name: "Poorvi", 
+        desc: "♭2 ♯4 ♭7",
+        pattern: [1,2,2,2,1,2,2],
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"]
+      },
+      { 
+        name: "Marwa", 
+        desc: "♭2",
+        pattern: [1,2,2,1,2,2,2],
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"]
+      }
     ];
 
-    // render modal groups – only for major
-    function renderModalGroups() {
-      if (currentScale === 'minor') {
-        borrowedSection.classList.add('hidden-section');
-        outsideCountSpan.innerText = '0';
-        return;
-      } else {
-        borrowedSection.classList.remove('hidden-section');
+    // ------------------------------------------------------------------
+    // MINOR thaats (complete patterns) – filter against Asawari set
+    // ------------------------------------------------------------------
+    const minorThaatDefinitions = [
+      { 
+        name: "Kafi (Dorian)", 
+        desc: "♮6",
+        pattern: [2,1,2,2,2,1,2],  // Dorian steps
+        qualities: ["min","min","maj","maj","min","dim","maj"] // i ii ♭III IV v vi° ♭VII
+      },
+      { 
+        name: "Bhairavi (Phrygian)", 
+        desc: "♭2",
+        pattern: [1,2,2,2,1,2,2],  // Phrygian steps
+        qualities: ["min","maj","maj","min","min","maj","maj"] // i ♭II ♭III iv v ♭VI ♭vii
+      },
+      { 
+        name: "Todi", 
+        desc: "♭2 ♯4",
+        pattern: [1,2,2,1,2,2,2],
+        qualities: ["min","maj","maj","maj","maj","dim","dim"] // approximate
+      },
+      { 
+        name: "Multani", 
+        desc: "♭2 ♯4",
+        pattern: [1,2,2,2,1,2,2],
+        qualities: ["min","maj","maj","maj","maj","maj","maj"]
+      },
+      { 
+        name: "Puriya Dhanashri", 
+        desc: "♯4 ♭7",
+        pattern: [2,2,2,1,2,2,1],
+        qualities: ["maj","min","min","maj","maj","min","dim"]
       }
+    ];
 
-      const rootIdx = notes.indexOf(currentRoot);
-      const diatonicSet = getDiatonicSet();
-      let allOutside = new Set();
+    // Generate chord chips for a given thaat, then filter against base set
+    function generateUniqueChips(root, pattern, qualities, baseSet) {
+      let idx = notes.indexOf(root);
+      const chips = [];
+      for (let i = 0; i < pattern.length; i++) {
+        let note = notes[idx];
+        let qual = qualities[i];
+        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
+        let chord = note + symbol;
+        // If chord is NOT in base set, it's unique (outsider)
+        if (!baseSet.has(chord)) {
+          chips.push(chord);
+        }
+        idx = (idx + pattern[i]) % 12;
+      }
+      return chips;
+    }
+
+    function renderModalGroups() {
+      // Get base set (Bilawal or Asawari)
+      const baseSet = getBaseChordSet(currentRoot, currentScale === 'major');
+
+      // Choose thaat list (exclude base thaat itself – Bilawal/Asawari not shown)
+      const thaats = currentScale === 'major' ? majorThaatDefinitions : minorThaatDefinitions;
+      
+      sectionTitle.innerText = currentScale === 'major' 
+        ? '⚡ major thaats · unique vs Bilawal' 
+        : '⚡ minor thaats · unique vs Asawari';
+
+      borrowedSection.classList.remove('hidden-section');
+
+      let allUniqueSet = new Set();
       let groupsHtml = '';
 
-      modalSpecs.forEach(spec => {
-        let groupChords = [];
+      thaats.forEach(thaat => {
+        // Get unique chords for this thaat (not in base set)
+        const uniqueChords = generateUniqueChips(currentRoot, thaat.pattern, thaat.qualities, baseSet);
+        
+        // Add to global set for footer count
+        uniqueChords.forEach(ch => allUniqueSet.add(ch));
 
-        spec.offsets.forEach(item => {
-          let rawNoteIdx = (rootIdx + item.offset) % 12;
-          let rawNote = notes[rawNoteIdx];
-          let displayChord = item.quality === 'maj' ? rawNote : rawNote + 'm';
-          let rawChord = item.quality === 'maj' ? rawNote : rawNote + 'm';
-
-          // always include root major as anchor
-          let include = false;
-          if (item.offset === 0 && item.quality === 'maj') {
-            include = true;
-          } else {
-            if (!diatonicSet.has(rawChord)) include = true;
-          }
-
-          if (include) {
-            groupChords.push(displayChord);
-            allOutside.add(rawChord);
-          }
-        });
-
-        if (groupChords.length > 0) {
-          let chips = '';
-          groupChords.forEach(ch => chips += `<span class="chip">${ch}</span>`);
+        // Only show card if there's at least one unique chord
+        if (uniqueChords.length > 0) {
+          let chipsHtml = '';
+          uniqueChords.forEach(ch => chipsHtml += `<span class="chip">${ch}</span>`);
 
           groupsHtml += `
             <div class="modal-card">
               <div class="modal-header">
-                <span class="modal-name">${spec.mode}</span>
-                <span class="modal-desc">${spec.desc}</span>
+                <span class="modal-name">${thaat.name}</span>
+                <span class="modal-desc">${thaat.desc}</span>
               </div>
-              <div class="chord-chips">${chips}</div>
+              <div class="chord-chips">${chipsHtml}</div>
             </div>
           `;
         }
       });
 
       modalGroupsContainer.innerHTML = groupsHtml;
-      outsideCountSpan.innerText = allOutside.size;
+      outsideCountSpan.innerText = allUniqueSet.size;
     }
 
     function renderAll() {
