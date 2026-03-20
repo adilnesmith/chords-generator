@@ -2,83 +2,84 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <title>Chords library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Thaat Chords & example songs</title>
   <style>
-    /* ------------------------------------------------
-     * Mobile-first – same clean design
-     * ------------------------------------------------ */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: #12101c;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #0c0a17;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      padding: 6px;
+      padding: 8px;
     }
 
     .app-container {
       width: 100%;
-      max-width: 500px;
-      height: 98vh;
-      background: #f8f2ff;
+      max-width: 560px;
+      height: 96vh;
+      max-height: 1000px;
+      background: #fefaff;
       border-radius: 2.2rem;
-      padding: 1rem 0.8rem;
-      box-shadow: 0 20px 40px #0000004d;
-      border: 2px solid #b7a0de;
+      padding: 1rem 0.9rem;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+      border: 1px solid #cfbef5;
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      color: #1d1433;
+      color: #1d1538;
     }
 
     .app-header {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 0.8rem;
+      gap: 0.6rem;
+      margin-bottom: 0.7rem;
+      flex-shrink: 0;
     }
 
     .app-title {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .app-title h1 {
-      font-size: 1.7rem;
-      font-weight: 700;
-      background: linear-gradient(145deg, #382d5a, #6d4ec7);
+      font-size: 1.65rem;
+      font-weight: 750;
+      background: linear-gradient(135deg, #3d2c6b, #7b5ed7);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.3px;
     }
 
     .app-badge {
-      background: #4f3c7c;
+      background: #5d48a3;
       color: white;
       padding: 0.2rem 1rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
+      border-radius: 60px;
+      font-size: 0.65rem;
       font-weight: 600;
-      text-transform: uppercase;
     }
 
     .selector-row {
       display: flex;
-      gap: 0.5rem;
-      background: #e7dcfe;
+      gap: 0.7rem;
+      background: #e8defd;
       border-radius: 3rem;
-      padding: 0.5rem 0.6rem;
-      border: 2px solid #b299e6;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid #bba7ec;
     }
 
     .selector-item {
@@ -89,167 +90,219 @@
 
     .selector-item label {
       font-size: 0.6rem;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
-      color: #3b2b60;
-      margin-left: 0.5rem;
-      margin-bottom: 0.1rem;
+      color: #43377a;
+      margin-left: 0.6rem;
+      margin-bottom: 0.2rem;
     }
 
     .styled-select {
       background: white;
-      border: 2px solid #a185d3;
-      border-radius: 2.5rem;
-      padding: 0.7rem 0.5rem;
-      font-size: 1.1rem;
+      border: 2px solid #aa90e0;
+      border-radius: 2.2rem;
+      padding: 0.65rem 0.4rem;
+      font-size: 1rem;
       font-weight: 700;
-      color: #1d113b;
+      color: #1a103f;
       appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%233d2e5f" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%233a2a68" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>');
       background-repeat: no-repeat;
-      background-position: right 0.8rem center;
-      background-size: 1.2rem;
+      background-position: right 0.7rem center;
+      background-size: 1rem;
       cursor: pointer;
       text-align: center;
     }
 
     .scale-card {
-      background: #e3d5ff;
-      border-radius: 2rem;
-      padding: 0.8rem 0.8rem;
-      margin: 0.6rem 0 0.8rem 0;
-      border: 2px solid #c6b0f0;
-      box-shadow: 0 4px 12px #c2abea;
+      background: #e4d8ff;
+      border-radius: 1.8rem;
+      padding: 0.7rem 0.6rem;
+      margin: 0.3rem 0 0.7rem 0;
+      border: 2px solid #cab3f5;
+      box-shadow: 0 6px 14px #cdb9f0;
+      flex-shrink: 0;
     }
 
     .scale-header {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
       margin-bottom: 0.6rem;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #2d2150;
     }
 
     .scale-header span {
-      background: #5d4690;
+      background: #59478b;
       color: white;
-      padding: 0.2rem 1rem;
+      padding: 0.2rem 0.9rem;
       border-radius: 40px;
       font-size: 0.7rem;
-      text-transform: uppercase;
+      font-weight: 600;
     }
 
     .diatonic-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.45rem;
       justify-content: center;
     }
 
     .pill {
       background: white;
-      border-radius: 2.5rem;
-      padding: 0.4rem 1.2rem;
-      font-weight: 700;
-      font-size: 1.2rem;
-      box-shadow: 0 2px 10px #b9a2e8;
-      border: 2px solid #ffffff;
-      color: #1c1238;
+      border-radius: 3rem;
+      padding: 0.4rem 1rem;
+      font-weight: 750;
+      font-size: 1.1rem;
+      box-shadow: 0 2px 8px #bea8ec;
+      border: 1px solid white;
+      color: #241d47;
       display: inline-flex;
       align-items: center;
       gap: 0.2rem;
     }
 
     .pill small {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 600;
-      color: #5b4b84;
-      margin-left: 0.2rem;
+      color: #6b579c;
     }
 
+    /* scrollable borrowed area */
     .borrowed-section {
       flex: 1;
       overflow-y: auto;
-      padding: 0.2rem 0.2rem 0.2rem 0.2rem;
+      padding: 0.2rem 0.1rem 0.4rem 0;
       min-height: 0;
-      background: #f0e8ff;
+      background: #f5efff;
       border-radius: 1.8rem;
-      border: 2px solid #d1bef5;
-      margin-top: 0.2rem;
+      border: 1px solid #dccdff;
+      margin-top: 0.1rem;
     }
 
     .section-title {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
-      color: #382b60;
-      padding: 0.5rem 0.5rem 0.2rem 0.8rem;
+      color: #3b2c65;
+      padding: 0.7rem 0.8rem 0.3rem 1rem;
+      background: #ede3ff;
+      border-radius: 2rem 2rem 0 0;
     }
 
     .modal-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      padding: 0.2rem 0.5rem 0.5rem 0.5rem;
+      gap: 0.9rem;
+      padding: 0.7rem 0.7rem 0.9rem 0.7rem;
     }
 
     .modal-card {
-      background: #ffffffde;
+      background: #ffffff;
       border-radius: 1.8rem;
-      padding: 0.6rem 0.5rem;
-      border: 2px solid #cfb9fc;
-      box-shadow: 0 4px 10px #c2abec;
+      padding: 0.7rem 0.7rem;
+      border: 2px solid #e0cefe;
+      box-shadow: 0 5px 12px #cfbef0;
+      transition: 0.1s;
     }
 
     .modal-header {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      align-items: baseline;
+      gap: 0.6rem;
       margin-bottom: 0.5rem;
-      padding-left: 0.3rem;
       flex-wrap: wrap;
+      padding-left: 0.3rem;
     }
 
     .modal-name {
       font-weight: 800;
-      font-size: 1.1rem;
-      color: #2d2352;
+      font-size: 1.05rem;
+      color: #2c1e57;
     }
 
     .modal-desc {
-      background: #6f5ba3;
+      background: #8f78c2;
       color: white;
-      padding: 0.1rem 1rem;
-      border-radius: 40px;
+      padding: 0.1rem 0.8rem;
+      border-radius: 60px;
       font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* scale notes row */
+    .scale-notes-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.5rem 0 0.6rem 0;
+      padding: 0.2rem 0.2rem;
+      background: #f3ecff;
+      border-radius: 2rem;
+      justify-content: center;
+    }
+
+    .scale-note-badge {
+      background: #e0d2ff;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      text-transform: uppercase;
+      color: #311f66;
+      font-family: monospace;
+      letter-spacing: 0.3px;
+    }
+
+    .song-example {
+      background: #faf5ff;
+      border-radius: 1.5rem;
+      margin-top: 0.6rem;
+      padding: 0.4rem 0.7rem;
+      border-left: 5px solid #9b80da;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .song-icon {
+      font-size: 1rem;
+    }
+
+    .song-text {
+      font-weight: 500;
+      color: #2b2152;
+    }
+
+    .song-artist {
+      font-size: 0.6rem;
+      color: #7766aa;
+      font-weight: 500;
     }
 
     .chord-chips {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      justify-content: center;
+      justify-content: flex-start;
+      margin-top: 0.2rem;
     }
 
     .chip {
       background: white;
-      border-radius: 2.5rem;
-      padding: 0.4rem 1.3rem;
-      font-weight: 700;
-      font-size: 1.2rem;
-      color: #1c1238;
-      border: 2px solid #ffffff;
-      box-shadow: 0 2px 12px #ad94e0;
-      transition: 0.05s;
-      min-width: 4rem;
-      text-align: center;
+      border-radius: 2.2rem;
+      padding: 0.35rem 1.2rem;
+      font-weight: 750;
+      font-size: 1rem;
+      color: #201b46;
+      border: 1.5px solid #cbb5ff;
+      box-shadow: 0 1px 6px #bcabdf;
+      transition: 0.05s linear;
     }
 
     .chip:active {
-      background: #dac9ff;
+      background: #e5d6ff;
       transform: scale(0.96);
     }
 
@@ -258,53 +311,57 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 0.5rem;
-      background: #e2d4fc;
-      padding: 0.4rem 1.2rem;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      color: #312758;
+      background: #e6dcfc;
+      padding: 0.45rem 1rem;
+      border-radius: 3rem;
+      font-size: 0.65rem;
       font-weight: 600;
-      border: 2px solid #b59de2;
+      color: #3a2b66;
+      border: 1px solid #beabec;
+      flex-shrink: 0;
     }
 
     .count-pill {
-      background: #4d3a78;
+      background: #4e3980;
       color: white;
-      padding: 0.2rem 0.8rem;
+      padding: 0.2rem 0.9rem;
       border-radius: 40px;
     }
 
     .borrowed-section::-webkit-scrollbar {
       width: 4px;
     }
+    .borrowed-section::-webkit-scrollbar-track {
+      background: #e5dafe;
+      border-radius: 10px;
+    }
     .borrowed-section::-webkit-scrollbar-thumb {
-      background: #a28ad4;
-      border-radius: 20px;
+      background: #9d84cf;
+      border-radius: 10px;
     }
 
     @media (max-height: 700px) {
-      .pill { font-size: 1rem; padding: 0.2rem 1rem; }
-      .chip { font-size: 1rem; padding: 0.2rem 1rem; }
-      .modal-name { font-size: 1rem; }
+      .pill { font-size: 0.9rem; padding: 0.2rem 0.8rem; }
+      .chip { font-size: 0.9rem; padding: 0.25rem 1rem; }
+      .modal-name { font-size: 0.95rem; }
+      .scale-note-badge { font-size: 0.65rem; }
     }
   </style>
 </head>
 <body>
 <div class="app-container">
-
   <div class="app-header">
     <div class="app-title">
-      <h1>🎸 Chords library</h1>
-      <span class="app-badge">unique only</span>
+      <h1>🎶 Chords Library</h1>
+      <span class="app-badge">songs & scales</span>
     </div>
-
     <div class="selector-row">
       <div class="selector-item">
-        <label for="rootSelect">root</label>
+        <label for="rootSelect">ROOT</label>
         <select id="rootSelect" class="styled-select"></select>
       </div>
       <div class="selector-item">
-        <label for="scaleSelect">scale</label>
+        <label for="scaleSelect">BASE THAAT</label>
         <select id="scaleSelect" class="styled-select">
           <option value="major">Major</option>
           <option value="minor">Minor</option>
@@ -316,12 +373,12 @@
   <div class="scale-card" id="mainScaleCard"></div>
 
   <div class="borrowed-section" id="borrowedSection">
-    <div class="section-title" id="sectionTitle">⚡ unique thaat chords</div>
+    <div class="section-title" id="sectionTitle">🎸 Modes / Thaats unique chords &  example songs</div>
     <div class="modal-grid" id="modalGroupsContainer"></div>
   </div>
 
   <div class="app-footer">
-    <span>🎼 For personal use only</span>
+    <span>🎵 For personal use ONLY</span>
     <span class="count-pill" id="outsideCount">0</span>
   </div>
 </div>
@@ -330,7 +387,7 @@
   (function() {
     const notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
-    // Base scale patterns (Bilawal for major, Asawari for minor)
+    // patterns & qualities for diatonic base (Bilawal / Asawari)
     const majorPattern = [2,2,1,2,2,2,1];
     const minorPattern = [2,1,2,2,1,2,2];
     const majorQualities = ["maj","min","min","maj","maj","min","dim"];
@@ -346,7 +403,6 @@
       return scale;
     }
 
-    // Get base diatonic chords (Bilawal or Asawari) as a Set
     function getBaseChordSet(root, isMajor) {
       const pattern = isMajor ? majorPattern : minorPattern;
       const qualities = isMajor ? majorQualities : minorQualities;
@@ -362,6 +418,210 @@
       return new Set(chords);
     }
 
+    // ----- THAAT DEFINITIONS with extended info: scale steps, song examples -----
+    // For Major context (compared to Bilawal)
+    const majorThaatDefinitions = [
+      { 
+        name: "Khamaj (Mixolydian)", desc: "♭7",
+        pattern: [2,2,1,2,2,1,2],
+        qualities: ["maj","min","min","maj","min","min","maj"],
+        songRef: "Hey Jude (The Beatles) · Sweet Home Alabama",
+        songDetail: "Mixolydian vibe, flat 7 gives bluesy lift"
+      },
+      { 
+        name: "Kalyan (Lydian)", desc: "♯4",
+        pattern: [2,2,2,1,2,2,1],
+        qualities: ["maj","maj","min","dim","maj","min","min"],
+        songRef: "Flying in a Blue Dream (Joe Satriani) · Simpsons theme",
+        songDetail: "Dreamy #4 brightness"
+      },
+      { 
+        name: "Bhairav (Phrygian Dominant)", desc: "♭2 ♭6 ♭7 · exotic",
+        pattern: [1,2,2,1,2,2,2],   // 1 b2 3 4 5 b6 b7
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"],
+        songRef: "Misirlou · many Indian classical (Bhairav raga)",
+        songDetail: "Middle Eastern tension, iconic"
+      },
+      { 
+        name: "Poorvi", desc: "♭2 ♯4 ♭7 · mysterious",
+        pattern: [1,2,2,2,1,2,2],
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"],
+        songRef: "Raga Poorvi · classic dhrupad, 'Bada Khayal'",
+        songDetail: "Deep serene mood"
+      },
+      { 
+        name: "Marwa", desc: "♭2 · urgent, bright",
+        pattern: [1,2,2,1,2,2,2],
+        qualities: ["maj","maj","maj","maj","maj","maj","maj"],
+        songRef: "Raga Marwa (Nikhil Banerjee) · intense sunset raga",
+        songDetail: "No perfect fifth but powerful"
+      }
+    ];
+
+    // Minor context (compared to Asawari)
+    const minorThaatDefinitions = [
+      { 
+        name: "Kafi (Dorian)", desc: "♮6 · soulful",
+        pattern: [2,1,2,2,2,1,2],
+        qualities: ["min","min","maj","maj","min","dim","maj"],
+        songRef: "Billie Jean (Michael Jackson) · Scarborough Fair",
+        songDetail: "Minor with major 6th, jazzy"
+      },
+      { 
+        name: "Bhairavi (Phrygian)", desc: "♭2 · dark & flamenco",
+        pattern: [1,2,2,2,1,2,2],
+        qualities: ["min","maj","maj","min","min","maj","maj"],
+        songRef: "Paint It Black (Rolling Stones) · Raga Bhairavi",
+        songDetail: "Exotic flat 2, intense"
+      },
+      { 
+        name: "Todi", desc: "♭2 ♯4 · meditative",
+        pattern: [1,2,2,1,2,2,2],
+        qualities: ["min","maj","maj","maj","maj","dim","dim"],
+        songRef: "Raga Todi classic (M.S. Subbulakshmi)",
+        songDetail: "Deep pathos, complex scale"
+      },
+      { 
+        name: "Multani", desc: "♭2 ♯4 · vibrant",
+        pattern: [1,2,2,2,1,2,2],
+        qualities: ["min","maj","maj","maj","maj","maj","maj"],
+        songRef: "Raga Multani (Hariprasad Chaurasia)",
+        songDetail: "Poignant & uplifting"
+      },
+      { 
+        name: "Puriya Dhanashri", desc: "♯4 ♭7 · romantic dusk",
+        pattern: [2,2,2,1,2,2,1],
+        qualities: ["maj","min","min","maj","maj","min","dim"],
+        songRef: "Raga Puriya Dhanashri (Kishori Amonkar)",
+        songDetail: "Intense, serene combination"
+      }
+    ];
+
+    // Helper: get scale notes array from pattern & root
+    function getScaleNotesFromPattern(root, pattern) {
+      let idx = notes.indexOf(root);
+      const scaleList = [root];
+      for (let i = 0; i < pattern.length - 1; i++) {
+        idx = (idx + pattern[i]) % 12;
+        scaleList.push(notes[idx]);
+      }
+      return scaleList;
+    }
+
+    // Generate unique chords for a thaat, also return the scale notes (for display)
+    function getUniqueChordsAndScale(root, pattern, qualities, baseSet) {
+      let idx = notes.indexOf(root);
+      const chords = [];
+      const scaleList = [];
+      for (let i = 0; i < pattern.length; i++) {
+        let note = notes[idx];
+        scaleList.push(note);
+        let qual = qualities[i];
+        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
+        let chord = note + symbol;
+        if (!baseSet.has(chord)) {
+          chords.push(chord);
+        }
+        idx = (idx + pattern[i]) % 12;
+      }
+      return { uniqueChords: chords, scaleNotes: scaleList };
+    }
+
+    // Render main diatonic scale (Bilawal or Asawari) with roman numerals
+    function renderMainScale(root, isMajor) {
+      const pattern = isMajor ? majorPattern : minorPattern;
+      const qualities = isMajor ? majorQualities : minorQualities;
+      const scaleNotes = getScaleNotes(root, pattern);
+      const roman = isMajor 
+        ? ["I","ii","iii","IV","V","vi","vii°"] 
+        : ["i","ii°","III","iv","v","VI","VII"];
+
+      let pillsHtml = '';
+      scaleNotes.forEach((note, i) => {
+        let qual = qualities[i];
+        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
+        pillsHtml += `<div class="pill">${note}${symbol}<small>${roman[i]}</small></div>`;
+      });
+
+      const scaleName = isMajor ? `Bilawal (Ionian)` : `Asawari (Aeolian)`;
+      document.getElementById('mainScaleCard').innerHTML = `
+        <div class="scale-header">
+          <span>🎼 ${root} ${scaleName}</span>
+          <span>diatonic · parent scale</span>
+        </div>
+        <div class="diatonic-pills">${pillsHtml}</div>
+      `;
+    }
+
+    // render all thaats/modes with scale notes + songs + unique chords
+    function renderModalGroups(root, isMajor) {
+      const baseSet = getBaseChordSet(root, isMajor);
+      const thaats = isMajor ? majorThaatDefinitions : minorThaatDefinitions;
+      const titlePrefix = isMajor ? "⚡ Modes / Thaats (vs Bilawal)" : "⚡ Modes / Thaats (vs Asawari)";
+      document.getElementById('sectionTitle').innerHTML = `🎸 ${titlePrefix} · scale + songs`;
+
+      let allUniqueSet = new Set();
+      let groupsHtml = '';
+
+      thaats.forEach(thaat => {
+        const { uniqueChords, scaleNotes } = getUniqueChordsAndScale(root, thaat.pattern, thaat.qualities, baseSet);
+        uniqueChords.forEach(ch => allUniqueSet.add(ch));
+        
+        // build scale chips display
+        let scaleChipsHtml = '';
+        scaleNotes.forEach(note => {
+          scaleChipsHtml += `<span class="scale-note-badge">${note}</span>`;
+        });
+
+        // chord chips for unique (only if exists)
+        let chipsHtml = '';
+        if (uniqueChords.length > 0) {
+          uniqueChords.forEach(ch => chipsHtml += `<span class="chip">${ch}</span>`);
+        } else {
+          chipsHtml = `<span style="font-size:0.7rem; color:#6f5b9e;">✨ all chords match parent (no borrowings)</span>`;
+        }
+
+        // song reference section
+        const songText = thaat.songRef || "traditional / classical reference";
+        const songDetail = thaat.songDetail || "evocative mood in this scale";
+
+        groupsHtml += `
+          <div class="modal-card">
+            <div class="modal-header">
+              <span class="modal-name">${thaat.name}</span>
+              <span class="modal-desc">${thaat.desc}</span>
+            </div>
+            <div class="scale-notes-row">
+              ${scaleChipsHtml}
+            </div>
+            <div class="chord-chips">
+              ${chipsHtml}
+            </div>
+            <div class="song-example">
+              <span class="song-icon">🎧</span>
+              <div>
+                <span class="song-text">${songText}</span>
+                <span class="song-artist"> — ${songDetail}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('modalGroupsContainer').innerHTML = groupsHtml;
+      document.getElementById('outsideCount').innerText = allUniqueSet.size;
+    }
+
+    // full UI update
+    function refreshAll() {
+      const root = document.getElementById('rootSelect').value;
+      const scaleType = document.getElementById('scaleSelect').value; // "major" or "minor"
+      const isMajor = (scaleType === 'major');
+      renderMainScale(root, isMajor);
+      renderModalGroups(root, isMajor);
+    }
+
+    // populate root selector
     const rootSelect = document.getElementById('rootSelect');
     notes.forEach(n => {
       const opt = document.createElement('option');
@@ -371,187 +631,9 @@
       rootSelect.appendChild(opt);
     });
 
-    const scaleSelect = document.getElementById('scaleSelect');
-    const mainScaleCard = document.getElementById('mainScaleCard');
-    const borrowedSection = document.getElementById('borrowedSection');
-    const modalGroupsContainer = document.getElementById('modalGroupsContainer');
-    const outsideCountSpan = document.getElementById('outsideCount');
-    const sectionTitle = document.getElementById('sectionTitle');
-
-    let currentRoot = 'C';
-    let currentScale = 'major';
-
-    // render main diatonic (the reference scale)
-    function renderMainScale() {
-      const pattern = currentScale === 'major' ? majorPattern : minorPattern;
-      const qualities = currentScale === 'major' ? majorQualities : minorQualities;
-      const scaleNotes = getScaleNotes(currentRoot, pattern);
-      const roman = currentScale === 'major' 
-        ? ["I","ii","iii","IV","V","vi","vii°"] 
-        : ["i","ii°","III","iv","v","VI","VII"];
-
-      let pillsHtml = '';
-      scaleNotes.forEach((note, i) => {
-        let display = note;
-        let qual = qualities[i];
-        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
-        pillsHtml += `<div class="pill">${display}${symbol}<small>${roman[i]}</small></div>`;
-      });
-
-      mainScaleCard.innerHTML = `
-        <div class="scale-header">
-          <span>🎵 ${currentRoot} ${currentScale === 'major' ? 'Bilawal' : 'Asawari'}</span>
-          <span>base thaat</span>
-        </div>
-        <div class="diatonic-pills">${pillsHtml}</div>
-      `;
-    }
-
-    // ------------------------------------------------------------------
-    // MAJOR thaats (complete patterns) – we'll filter against Bilawal set
-    // ------------------------------------------------------------------
-    const majorThaatDefinitions = [
-      { 
-        name: "Khamaj (Mixolydian)", 
-        desc: "♭7",
-        pattern: [2,2,1,2,2,1,2],  // Mixolydian steps
-        qualities: ["maj","min","min","maj","min","min","maj"]  // I ii iii IV v vi ♭VII
-      },
-      { 
-        name: "Kalyan (Lydian)", 
-        desc: "♯4",
-        pattern: [2,2,2,1,2,2,1],  // Lydian steps
-        qualities: ["maj","maj","min","dim","maj","min","min"] // I II iii ♯iv° V vi vii
-      },
-      { 
-        name: "Bhairav", 
-        desc: "♭2 ♭6 ♭7",
-        pattern: [1,2,2,1,2,2,2],  // Phrygian with natural 3? Bhairav that: 1 ♭2 3 4 5 ♭6 ♭7
-        qualities: ["maj","maj","maj","maj","maj","maj","maj"] // all major for demonstration, but unique chords will appear
-      },
-      { 
-        name: "Poorvi", 
-        desc: "♭2 ♯4 ♭7",
-        pattern: [1,2,2,2,1,2,2],
-        qualities: ["maj","maj","maj","maj","maj","maj","maj"]
-      },
-      { 
-        name: "Marwa", 
-        desc: "♭2",
-        pattern: [1,2,2,1,2,2,2],
-        qualities: ["maj","maj","maj","maj","maj","maj","maj"]
-      }
-    ];
-
-    // ------------------------------------------------------------------
-    // MINOR thaats (complete patterns) – filter against Asawari set
-    // ------------------------------------------------------------------
-    const minorThaatDefinitions = [
-      { 
-        name: "Kafi (Dorian)", 
-        desc: "♮6",
-        pattern: [2,1,2,2,2,1,2],  // Dorian steps
-        qualities: ["min","min","maj","maj","min","dim","maj"] // i ii ♭III IV v vi° ♭VII
-      },
-      { 
-        name: "Bhairavi (Phrygian)", 
-        desc: "♭2",
-        pattern: [1,2,2,2,1,2,2],  // Phrygian steps
-        qualities: ["min","maj","maj","min","min","maj","maj"] // i ♭II ♭III iv v ♭VI ♭vii
-      },
-      { 
-        name: "Todi", 
-        desc: "♭2 ♯4",
-        pattern: [1,2,2,1,2,2,2],
-        qualities: ["min","maj","maj","maj","maj","dim","dim"] // approximate
-      },
-      { 
-        name: "Multani", 
-        desc: "♭2 ♯4",
-        pattern: [1,2,2,2,1,2,2],
-        qualities: ["min","maj","maj","maj","maj","maj","maj"]
-      },
-      { 
-        name: "Puriya Dhanashri", 
-        desc: "♯4 ♭7",
-        pattern: [2,2,2,1,2,2,1],
-        qualities: ["maj","min","min","maj","maj","min","dim"]
-      }
-    ];
-
-    // Generate chord chips for a given thaat, then filter against base set
-    function generateUniqueChips(root, pattern, qualities, baseSet) {
-      let idx = notes.indexOf(root);
-      const chips = [];
-      for (let i = 0; i < pattern.length; i++) {
-        let note = notes[idx];
-        let qual = qualities[i];
-        let symbol = qual === 'maj' ? '' : (qual === 'min' ? 'm' : '°');
-        let chord = note + symbol;
-        // If chord is NOT in base set, it's unique (outsider)
-        if (!baseSet.has(chord)) {
-          chips.push(chord);
-        }
-        idx = (idx + pattern[i]) % 12;
-      }
-      return chips;
-    }
-
-    function renderModalGroups() {
-      // Get base set (Bilawal or Asawari)
-      const baseSet = getBaseChordSet(currentRoot, currentScale === 'major');
-
-      // Choose thaat list (exclude base thaat itself – Bilawal/Asawari not shown)
-      const thaats = currentScale === 'major' ? majorThaatDefinitions : minorThaatDefinitions;
-      
-      sectionTitle.innerText = currentScale === 'major' 
-        ? '⚡ major thaats · unique vs Bilawal' 
-        : '⚡ minor thaats · unique vs Asawari';
-
-      borrowedSection.classList.remove('hidden-section');
-
-      let allUniqueSet = new Set();
-      let groupsHtml = '';
-
-      thaats.forEach(thaat => {
-        // Get unique chords for this thaat (not in base set)
-        const uniqueChords = generateUniqueChips(currentRoot, thaat.pattern, thaat.qualities, baseSet);
-        
-        // Add to global set for footer count
-        uniqueChords.forEach(ch => allUniqueSet.add(ch));
-
-        // Only show card if there's at least one unique chord
-        if (uniqueChords.length > 0) {
-          let chipsHtml = '';
-          uniqueChords.forEach(ch => chipsHtml += `<span class="chip">${ch}</span>`);
-
-          groupsHtml += `
-            <div class="modal-card">
-              <div class="modal-header">
-                <span class="modal-name">${thaat.name}</span>
-                <span class="modal-desc">${thaat.desc}</span>
-              </div>
-              <div class="chord-chips">${chipsHtml}</div>
-            </div>
-          `;
-        }
-      });
-
-      modalGroupsContainer.innerHTML = groupsHtml;
-      outsideCountSpan.innerText = allUniqueSet.size;
-    }
-
-    function renderAll() {
-      currentRoot = rootSelect.value;
-      currentScale = scaleSelect.value;
-      renderMainScale();
-      renderModalGroups();
-    }
-
-    rootSelect.addEventListener('change', renderAll);
-    scaleSelect.addEventListener('change', renderAll);
-
-    renderAll();
+    rootSelect.addEventListener('change', refreshAll);
+    document.getElementById('scaleSelect').addEventListener('change', refreshAll);
+    refreshAll();
   })();
 </script>
 </body>
