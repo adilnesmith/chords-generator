@@ -76,7 +76,6 @@ const Modes = {
       qualities: ["maj","maj","maj","maj","maj","min","dim"],
       song: "Traditional Bhairav colour",
       detail: "Devotional flattened 2nd and 6th",
-      // Unique chords at C: Fm, C#
       chordMap: {
         "C": ["Fm", "C#"]
       }
@@ -84,7 +83,7 @@ const Modes = {
     {
       name: "Marwa",
       desc: "♭2 ♮3 ♯4 ♮6 ♮7",
-      // Notes: C, C#, E, F#, A, B  (6 notes? actually Marwa is a 6-note scale)
+      // Notes: C, C#, E, F#, A, B
       getNotes(root) {
         const n = MusicConfig.NOTES;
         const i = n.indexOf(root);
@@ -100,29 +99,33 @@ const Modes = {
       qualities: ["maj","min","maj","dim","maj","min"],
       song: "Traditional Marwa mood",
       detail: "Tense sunset raga colour",
-      // Unique chords at C: A, F#m
       chordMap: {
         "C": ["A", "F#m"]
       }
     },
     {
       name: "Purvi (Purbi)",
-      desc: "♭2 ♯4 ♭6",
+      desc: "♭2 ♯4 ♭6 ♭7",
+      // Notes: C, C#, E, F#, G, G#, B  (7 notes for root C)
       getNotes(root) {
         const n = MusicConfig.NOTES;
         const i = n.indexOf(root);
-        return [n[i%12], n[(i+1)%12], n[(i+4)%12], n[(i+6)%12], n[(i+7)%12], n[(i+9)%12], n[(i+11)%12]];
+        return [
+          n[i % 12],           // 1 - C
+          n[(i + 1) % 12],     // b2 - C#
+          n[(i + 4) % 12],     // 3 - E
+          n[(i + 6) % 12],     // #4 - F#
+          n[(i + 7) % 12],     // 5 - G
+          n[(i + 8) % 12],     // b6 - G#
+          n[(i + 11) % 12]     // b7 - B
+        ];
       },
       qualities: ["maj","min","maj","dim","maj","min","dim"],
       song: "Traditional Purvi mood",
       detail: "Deep twilight devotional colour",
+      // Unique chords at C: F#m, E
       chordMap: {
-        C: ["C"],
-        "C#": ["F#m"],
-        E: ["Am","F#m"],
-        G: ["C"],
-        A: ["Am"],
-        B: ["E"]
+        "C": ["F#m", "E"]
       }
     }
   ],
